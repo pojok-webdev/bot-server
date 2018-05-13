@@ -1,10 +1,11 @@
-var mysql = require('promise-mysql');
+var mysql = require('promise-mysql'),
+config = require('./config');
 doQuery = function(sql,callback){
     mysql.createConnection({
         host: 'localhost',
-        user: 'teknis',
-        password: 'teknis',
-        database: 'teknis'
+        user: config.user,
+        password: config.password,
+        database: config.database
     }).then(function(conn){
         var result = conn.query(sql);
         conn.end();

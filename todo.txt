@@ -1,1 +1,3 @@
- alter table visits add column telegram_id varchar(15) after sale_id;
+alter table visits add column telegram_id varchar(15) after sale_id;
+alter table visits rename visits_;
+create table visits (id int primary key auto_increment,telegram_id int,clientname varchar(200),address varchar(200),createuser varchar(40),createdate timestamp default current_timestamp);
