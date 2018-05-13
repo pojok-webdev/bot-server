@@ -1,0 +1,1 @@
+ alter table visits add column telegram_id varchar(15) after sale_id;

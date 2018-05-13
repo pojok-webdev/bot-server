@@ -54,35 +54,30 @@ app.get('/save',function(req,res){
   ug.myres(url1,function(body){
     amount = body.result.length;
     console.log("Amount",amount);
-    
-    console.log("UPDATE_ID",body.result[amount-1].update_id);
+    telegram_id = body.result[amount-1].update_id;
+    console.log("UPDATE_ID",telegram_id);
     console.log("MESSAGE",body.result[amount-1].message.chat);
     console.log("TEXT",body.result[amount-1].message.text);
-    id = body.result[amount-1].message.chat.id;
+    chat_id = body.result[amount-1].message.chat.id;
     texts = body.result[amount-1].message.text.split('*');
-    texts.forEach(function(x){
-      console.log('->',x);
-    })
-    queries.save(texts[1],texts[2],texts[3]);
-    con.query(queries.save(texts[1],texts[2],texts[3]),function(result){
-      console.log("Sukses menyimpan",result);
-      bot = 'bot311276793:AAGpixXvuG9XdAWqUHE-inawZgdki3VsxjI';
-      chat_id = id;//'219513951';
-      messageText = 'Nomor Visit anda '+result.insertId;
-      msg = ug.sendmessage(bot,messageText,chat_id);
-      ug.myhttps(msg,function(body){
-        console.log('reply',body);
-        console.log("MSG",msg);
-        //res.send(body);
-      })
-  
-    })
-
-
-
-  
-    
-    //res.send(body.result[amount-1].message);
+    con.query(queries.checkexists(telegram_id),function(result){
+      console.log("HASIL CEK",result[0].cnt);
+      if(parseInt(result[0].cnt) > 0){
+        console.log(telegram_id,"Sudah ada");
+      }else{
+        con.query(queries.save(texts[1],texts[2],texts[3],telegram_id),function(result){
+          console.log("Sukses menyimpan",result);
+          bot = 'bot311276793:AAGpixXvuG9XdAWqUHE-inawZgdki3VsxjI';
+          messageText = 'Nomor Visit anda '+result.insertId;
+          msg = ug.sendmessage(bot,messageText,chat_id);
+          ug.myhttps(msg,function(body){
+            console.log('reply',body);
+            console.log("MSG",msg);
+            res.send(body);
+          })
+        });    
+      }
+    });
   });
 })
 app.get('/test',function(req,resu){

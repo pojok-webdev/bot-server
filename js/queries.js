@@ -1,19 +1,16 @@
-save = function(user_id,clientname,address){
+save = function(user_id,clientname,address,telegram_id){
     sql = "insert into visits ";
-    sql+= "(createuser,purposeofvisit,address) ";
+    sql+= "(createuser,purposeofvisit,address,telegram_id) ";
     sql+= "values ";
-    sql+= "('"+user_id+"','"+clientname+"','"+address+"') ";
+    sql+= "('"+user_id+"','"+clientname+"','"+address+"','"+telegram_id+"') ";
     return sql;
 }
-getdailyvisits = function(){
-    sql = "select a.username name,count(b.id)val from users a ";
-    sql+= "left outer join visits b on b.sale_id=a.id ";
-    //sql+= "where date(b.createdate)='2018-1-1' ";
-    //sql+= "and a.id="+sale_id+" ";
-    sql+= "group by a.username ";
-    sql+= "limit 1,10 ";
+checkExists = function(telegram_id){
+    sql = "select count(id)cnt from visits a ";
+    sql+= "where telegram_id='"+telegram_id+"' ";
     return sql;
 }
 module.exports = {
+    checkexists: checkExists,
     save: save
 }
