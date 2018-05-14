@@ -1,10 +1,6 @@
-mysql = require('mysql');
-config = {
-    mysql_pool : mysql.createPool({
-        host:'localhost',
-        user:'teknis',
-        password:'teknis',
-        database:'teknis'
-    })
+module.exports = {
+    user: 'teknis',
+    password: 'teknis',
+    database: 'teknis',
+    bot: 'bot311276793:AAGpixXvuG9XdAWqUHE-inawZgdki3VsxjI'
 };
-module.export = config;
